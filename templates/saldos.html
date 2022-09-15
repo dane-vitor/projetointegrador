@@ -1,0 +1,87 @@
+{% extends "base2.html" %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Saldos</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <!-- <link rel="stylesheet" href="static/css/style2.css"> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+</head>
+<body>
+  <form class="form" method="POST" action="" style="width: 445px;">
+      <div class="tlaregistro" style="height: 520px;">
+          <div style="text-align: center;">
+            <a href="https://www.casadacriancaitaporanga.com.br/" target="_blank">
+              <img class="imglogos" src="../static/img/logo.png" alt=""></a>
+            <h2 style="color: black;">Manutenção de Saldos do Caixa</h2>
+          </div>
+
+          <div class="tlaregistro-grupo" style="text-align: center;">
+   
+              <input type="date" name="data" style="width: 100px;" required="">
+              <input hidden type="text" name="recebimento" value="r">
+              <input hidden type="text" name="descricao_conta_devedora" value="Caixa">
+              <input hidden type="text" name="descricao_conta_credora" value="Saldo Anterior">
+              <input hidden type="text" name="descricao_historico" value="Saldo Anterior">
+               <select name="cpl_historico" style="width: 110px; height: 33px; background-color: white; border-radius: 5px;" required="">
+                <option value="Saldo Anterior" style="width: 50px;" required="">Saldo Anterior</option>
+             </select>
+             <input type="number" min="0" name="valor" pattern="[0-9]+([,\.][0-9]+)?" step="any" style="width: 80px;" 
+                   placeholder="valor" required="">
+          </div>
+
+          <div class="tlaregistro-grupo" style="text-align: center;">
+
+          <div class="card-group btn" style="padding: 10px;">
+              {% if current_user.is_authenticated %}
+              <button type="submit" style=" width: 150px;"><b>Atualizar saldos</b></button>
+                            <button type="button" style=" width: 100px"><a href="{{ url_for('main.profile') }}" 
+                      style="text-decoration:none; color: black;"><b>Voltar</b></a></button>
+              {% endif %}
+          </div>
+
+</div>
+
+        <div>
+            <table id="consulta1" border="1" style="border-collapse:collapse; width:100%; margin-top: 15px;">
+              <thead>
+                <tr>
+                  <td>Mês</td>
+                  <td style="text-indent: 5px;">DATA</td>
+                  <td style="text-indent: 5px;">DESCRIÇÃO</td>
+                  <td style="text-align: center;">VALOR</td>
+                  <td class="no-print" style="text-align: center;">Excluir</td>
+                  <td class="no-print" style="text-align: center;">Editar</td>
+                </tr>
+              </thead>
+                  {% for dado in lancamentos %}
+                    {% if dado.descricao_conta_devedora == 'Caixa' and dado.cpl_historico == 'Saldo Anterior' %}
+              <tbody>
+                <tr>
+                  <td><b>{{ dado.data[5:7] }}</b></td>
+                  <td style="text-align: center;">{{ dado.data }}</td>
+                  <td style="text-indent: 5px; text-align: left;">{{ dado.cpl_historico }}</td>
+                  <td style="text-align: right;">{{ dado.valor.replace('.', ',') }}</td>
+                  <td class="no-print" style=" text-align: center;"><a href="/excluir1/{{ dado.id }}" 
+                    style="text-decoration: none;">Remover</a></td>
+                  <td class="no-print" style=" text-align: center;"><a href="/atualizar1/{{ dado.id }}" 
+                    style="text-decoration: none;">Alterar</a></td>
+                </tr>
+              </tbody>
+                   {% endif %}
+                  {% endfor %}
+
+            </table>
+      
+        </div>
+
+</body>
+</html> 
+{% endblock %}   

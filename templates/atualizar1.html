@@ -1,0 +1,180 @@
+{% extends "base2.html" %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Atualizar</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+</head>
+<body>
+    <form class="form" method="POST" action="" style="width: 445px;">
+        <div class="tlaregistro" style="height: 520px;">
+          <div style="text-align: center;">
+          <a href="https://www.casadacriancaitaporanga.com.br/" target="_blank"><img class="imglogos" src="../static/img/logo.png" alt=""></a>
+            <h2 style="color: black;">Atualizar Registro de Pagamentos</h2>
+          </div>
+
+          <div class="tlaregistro-grupo" style="text-align: left;">
+              <label autofocus>Data</label>
+          <input type="date" name="data" value="{{lancamentos.data}}" style="width: 150px;" required="">
+          <input hidden type="text" name="pagamento" value="{{lancamentos.pagamento}}">
+          </div>
+
+          <div class="tlaregistro-grupo" style="text-align: left;">
+            <label>Selecione o meio de pagamento</label>
+
+             <select id="meiopagamento" style="width: 382px; height: 33px; background-color: white; border-radius: 5px;" required="">
+            <option value="#" style="width: 50px;" >Clique para Selecionar</option>
+                 {% for dado in plano_contas %}
+                  {% if dado.disponibilidades == 's' %}
+            <option data-cod_acesso="{{ dado.cod_acesso }}" data-classificador="{{ dado.classificador }}" data-nome_conta="{{ dado.nome_conta }}">
+            {{ dado.nome_conta }}</option>
+                  {% endif %}
+                 {% endfor %}
+             </select>
+
+            <input hidden id="cod_acesso" readonly="true" type="text" name="cod_acesso">
+            <input hidden id="classificador" readonly="true" type="text" name="classificador">
+            <input hidden id="nome_conta" readonly="true" type="text" name="nome_conta">
+           </div>
+
+          <div class="tlaregistro-grupo" style="text-align: left;">
+            <label>Selecione o que você esta pagando</label>
+              <select id="categoriapagamento" style="width: 382px; height: 33px; background-color: white; border-radius: 5px;" required="">
+                <option value="#" style="width: 50px;" required="">Clique para Selecionar</option>
+                 {% for dado in plano_contas %}
+                  {% if dado.recebedor == 's' %}
+                <option data-cod_acesso2="{{ dado.cod_acesso }}" data-classificador2="{{ dado.classificador }}" data-nome_conta2="{{ dado.nome_conta }}">{{ dado.nome_conta }}</option>
+                  {% endif %}                
+                 {% endfor %}
+             </select>
+
+                <input hidden  id="cod_acesso2" readonly="true" type="text" name="cod_acesso2">
+                <input hidden id="classificador2" readonly="true" type="text" name="classificador2">
+                <input hidden id="nome_conta2" readonly="true" type="text" name="nome_conta2">
+          </div>
+          
+          <div class="tlaregistro-grupo" style="text-align: left;">  
+           <label>Selecione a natureza do pagamento</label>  
+            <input type="text" list="natureza_despesa" name="nat_despesa" 
+              minlength="5" maxlength="30" 
+              placeholder="clique para selecionar" style="width: 376px;" required="">
+                <datalist id="natureza_despesa">
+                    <option value="Recursos Humanos">
+                    <option value="Imposto Patronal">
+                    <option value="Honorário de Profissional">
+                    <option value="Telefone e Internet">
+                    <option value="Agua e Esgoto">
+                    <option value="Energia Elétrica">
+                    <option value="Despesas com Site">
+                    <option value="Tarifas">
+                    <option value="Farmácia">
+                    <option value="Mercado">
+                    <option value="Diversos">
+                    <option value="Viagens e Estadias">   
+                  </datalist>       
+          </div>
+
+          <div class="tlaregistro-grupo" style="text-align: left;">
+           <label>Selecione um histórico para o que você esta pagando</label>
+              <select id="historico" style="width: 382px; height: 33px; background-color: white; border-radius: 5px;" required="">
+            <option value="#" style="width: 50px;" required="">Clique para Selecionar</option>
+                 {% for dado in historicos_padrao %}
+                  {% if dado.recebedor != 'n' %}
+                <option data-codigohisto="{{ dado.codigo }}" data-titulohisto="{{ dado.titulo }}" 
+                data-cpl_historico="{{ dado.descricao }}">{{ dado.titulo }}</option>
+                  {% endif %}
+                 {% endfor %}
+             </select>
+
+                <input hidden id="codigohisto" readonly="true" type="text" name="codigohisto">
+                <input hidden id="titulohisto" readonly="true" type="text" name="titulohisto">
+                
+                <label>Descreva quem você esta pagando</label>
+                <input  minlength="1" maxlength="100" placeholder="clique para selecionar" 
+                   style="width: 376px;" id="cpl_historico" type="text" 
+                    name="cpl_historico" value="{{lancamentos.cpl_historico}}">
+          </div>
+          
+
+          <div class="tlaregistro-grupo" style="text-align: left;">
+            <label>Documento de Depósito</label>  
+            <input type="text" name="doc_deposito" minlength="1"
+                   maxlength="100" placeholder="digite o numero do documento se houver" 
+                   style="width: 245px;" value="{{lancamentos.doc_deposito}}">
+          </div>      
+
+          <div class="tlaregistro-grupo" style="text-align: left;">
+            <label>Valor em R$</label>
+            <input type="number" min="0" name="valor" pattern="[0-9]+([,\.][0-9]+)?" step="any" style="width: 150px;" placeholder="Digite o valor" value="{{lancamentos.valor}}" required="">
+          </div>
+
+
+          <div class="card-group btn" style="padding: 10px;">
+              {% if current_user.is_authenticated %}
+              <button type="submit" style=" width: 100px"><b>Atualizar</b></button>
+              <button type="reset" style=" width: 100px"><b>Limpar</b></button>
+              <button type="button" value='Voltar' onclick='history.go(-1)' style=" width: 100px; color: black;">
+                <b>Cancelar</b></button>
+              {% endif %}
+          </div>
+        </div>
+    </form>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+        <script type="text/javascript">
+           $(document).on('change', '#meiopagamento', function () {
+              var value  = $(this).val();
+              var option = $(this).find("option:selected");
+
+              var nome_conta    = option.data('nome_conta');
+              var classificador = option.data('classificador');
+              var cod_acesso = option.data('cod_acesso');
+
+              $('#cod_acesso').val(cod_acesso);
+              $('#classificador').val(classificador);
+              $('#nome_conta').val(nome_conta);
+           });
+        </script>
+
+        <script type="text/javascript">
+           $(document).on('change', '#categoriapagamento', function () {
+              var value  = $(this).val();
+              var option = $(this).find("option:selected");
+
+              var nome_conta2    = option.data('nome_conta2');
+              var classificador2 = option.data('classificador2');
+              var cod_acesso2 = option.data('cod_acesso2');
+
+              $('#cod_acesso2').val(cod_acesso2);
+              $('#classificador2').val(classificador2);
+              $('#nome_conta2').val(nome_conta2);
+           });
+        </script>
+
+        <script type="text/javascript">
+           $(document).on('change', '#historico', function () {
+              var value  = $(this).val();
+              var option = $(this).find("option:selected");
+
+              var codigohisto    = option.data('codigohisto');
+              var titulohisto = option.data('titulohisto');
+              var cpl_historico = option.data('cpl_historico');
+         
+              $('#codigohisto').val(codigohisto);
+              $('#titulohisto').val(titulohisto);
+              $('#cpl_historico').val(cpl_historico);
+           });
+        </script>
+
+</body>
+</html> 
+{% endblock %}   
