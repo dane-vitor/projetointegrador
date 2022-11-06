@@ -1,3 +1,6 @@
+{% extends "base2.html" %}
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -12,14 +15,14 @@
 *{
   margin:0;
   padding:0;
-  color:rgb(255, 255, 255);
+  color: #fff;
   font-family:'Arial';
   }
   
 .menu{
   width:100%;
   height:50px;
-  background-color: #267cfdf6;
+/*  background-color: #267cfdf6; */
   }
   
 .menu>ul{
@@ -36,9 +39,10 @@
   padding:15px;
   display:block;
   text-decoration: none;
-  background-color: #267cfdf6;
+/*  background-color: #267cfdf6; */
   text-align:center;
   }
+
 .menu ul ul{
   list-style:none;
   position:absolute;
@@ -50,7 +54,7 @@
   }
   
 .menu a:hover{
-  background-color:#f4f4f4;
+  background-color:#1240f4;
   }
 
 .menu ul ul li{
@@ -79,6 +83,7 @@ label[for='bt_menu']:hover{
   background-color:#f4f4f4;
   color:#aaa;
   }
+
 @media (max-width: 800px) {
 .menu{
   margin-left:-100%;
@@ -87,6 +92,7 @@ label[for='bt_menu']:hover{
 label[for='bt_menu']{
   display:block;
   }
+.menu a {background-color: #267cfdf6;}
 .menu>ul{
   margin-left:0;
   }
@@ -122,7 +128,7 @@ label[for='bt_menu']{
 <input type="checkbox" id="bt_menu">
 <label for="bt_menu">&#9776;</label>
 
-  <h1 style="color: rgb(236, 36, 36); border:none;">
+  <h1 style="color: #fff; border:none;">
   Bem-vindo, {{ name }}!
 </h1>
 
@@ -166,6 +172,7 @@ label[for='bt_menu']{
       <br>
       <br>
       <br>
-             <div id="cont_e118049b9b5594b6ac51a7672610821a"><script type="text/javascript" async src="https://www.tempo.com/wid_loader/e118049b9b5594b6ac51a7672610821a"></script></div>
+ 
 </body>
 </html>
+{% endblock %}

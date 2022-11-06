@@ -35,10 +35,11 @@ a{
 }
 
 .form{
-    width: 400px;
+    width: 445px;
     margin: auto;
  /*   padding: 40px; */
 }
+
 .card{
     box-shadow: 1px 1px 5px #ccc;
     background-color: white;
@@ -160,5 +161,12 @@ a{
     .no-print, .no-print *
     {
         display: none !important;
+    }
+}
+
+@media screen and (max-width: 768px)
+ {
+    .form {
+        width: 100%;
     }
 }
