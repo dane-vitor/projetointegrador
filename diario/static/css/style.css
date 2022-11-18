@@ -156,17 +156,20 @@ a{
     padding-top: 1rem;
 }
 
-@media print
-{    
-    .no-print, .no-print *
-    {
-        display: none !important;
-    }
-}
-
 @media screen and (max-width: 768px)
  {
     .form {
         width: 100%;
+        padding: 0;
     }
+
+    .imglogin{
+        max-width: -moz-available;  
+    }
+
+    .card-group > input{
+     height: 40px;
+ 
+    }
+
 }
